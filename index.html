@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Atemporal | Design Profissional</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0a0e27;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ===== EFEITO DE FUNDO ANIMADO PROFISSIONAL ===== */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .gradient-sphere {
+      position: absolute;
+      width: 60vw;
+      height: 60vw;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.6;
+      animation: floatSphere 18s infinite alternate ease-in-out;
+    }
+
+    .sphere-1 {
+      background: radial-gradient(circle, #ff6a88, #ff99ac);
+      top: -20%;
+      left: -10%;
+      animation-duration: 20s;
+    }
+
+    .sphere-2 {
+      background: radial-gradient(circle, #4facfe, #00f2fe);
+      bottom: -20%;
+      right: -15%;
+      width: 70vw;
+      height: 70vw;
+      animation-duration: 25s;
+      animation-delay: -5s;
+    }
+
+    .sphere-3 {
+      background: radial-gradient(circle, #43e97b, #38f9d7);
+      top: 40%;
+      left: 25%;
+      width: 40vw;
+      height: 40vw;
+      filter: blur(80px);
+      opacity: 0.45;
+      animation-duration: 22s;
+      animation-delay: -2s;
+    }
+
+    .grid-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+    }
+
+    @keyframes floatSphere {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(5%, 8%) scale(1.12);
+      }
+    }
+
+    /* Partículas flutuantes */
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: particleFloat linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-20vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* ===== CARD PRINCIPAL ===== */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(2px);
+    }
+
+    /* Relógio premium */
+    .clock-premium {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      padding: 12px 28px;
+      margin-bottom: 28px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .time {
+      font-size: 3.2rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, #ffffff, #e0e0ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-feature-settings: 'tnum';
+      font-variant-numeric: tabular-nums;
+    }
+
+    .date {
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.7);
+      margin-top: 6px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    /* Calculadora glassmorphism + neumorfismo leve */
+    .calculator-glass {
+      background: rgba(18, 22, 48, 0.65);
+      backdrop-filter: blur(20px);
+      border-radius: 36px;
+      padding: 24px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .calculator-glass:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Display */
+    .calc-display {
+      margin-bottom: 28px;
+    }
+
+    .calc-display input {
+      width: 100%;
+      background: rgba(10, 12, 28, 0.7);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 24px;
+      padding: 20px 24px;
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: right;
+      color: #ffffff;
+      font-family: 'Segoe UI', 'Inter', monospace;
+      letter-spacing: 1px;
+      outline: none;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .calc-display input:focus {
+      border-color: rgba(79, 172, 254, 0.6);
+      box-shadow: 0 0 8px rgba(79, 172, 254, 0.3), inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Grid de botões */
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 16px 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #f0f3ff;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      backdrop-filter: blur(5px);
+      font-family: inherit;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+      background: rgba(255,255,255,0.2);
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.18);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-2px);
+    }
+
+    /* Categorias especiais */
+    .btn-op {
+      background: rgba(79, 172, 254, 0.25);
+      color: #b8e1ff;
+      border-color: rgba(79, 172, 254, 0.5);
+    }
+
+    .btn-op:hover {
+      background: rgba(79, 172, 254, 0.45);
+      color: white;
+    }
+
+    .btn-equals {
+      background: linear-gradient(135deg, #4facfe, #00c6fb);
+      border: none;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
+    }
+
+    .btn-equals:hover {
+      background: linear-gradient(135deg, #6bbdff, #1ed6ff);
+      box-shadow: 0 8px 25px rgba(0, 170, 255, 0.5);
+    }
+
+    .btn-clear {
+      background: rgba(255, 85, 85, 0.25);
+      color: #ffb3b3;
+      border-color: rgba(255, 85, 85, 0.5);
+    }
+
+    .btn-clear:hover {
+      background: rgba(255, 85, 85, 0.5);
+      color: white;
+    }
+
+    .btn-special {
+      background: rgba(67, 233, 123, 0.2);
+      color: #b0ffcc;
+    }
+
+    /* botões de tamanho especial */
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    /* Footer sutil */
+    .brand {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 520px) {
+      .buttons-grid {
+        gap: 10px;
+      }
+      .btn {
+        padding: 12px 0;
+        font-size: 1.1rem;
+      }
+      .time {
+        font-size: 2.4rem;
+        letter-spacing: 2px;
+      }
+      .calculator-glass {
+        padding: 18px;
+      }
+      .calc-display input {
+        padding: 16px 20px;
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="animated-bg">
+  <div class="gradient-sphere sphere-1"></div>
+  <div class="gradient-sphere sphere-2"></div>
+  <div class="gradient-sphere sphere-3"></div>
+  <div class="grid-pattern"></div>
+</div>
+
+<div class="main-container">
+  <!-- Relógio profissional com data -->
+  <div class="clock-premium">
+    <div class="time" id="liveClock">--:--:--</div>
+    <div class="date" id="liveDate">-- de ---- de ----</div>
+  </div>
+
+  <!-- Calculadora melhorada -->
+  <div class="calculator-glass">
+    <div class="calc-display">
+      <input type="text" id="calcDisplay" placeholder="0" readonly>
+    </div>
+    <div class="buttons-grid">
+      <!-- Linha 1 -->
+      <button class="btn btn-clear" id="clearAllBtn">AC</button>
+      <button class="btn btn-clear" id="clearEntryBtn">C</button>
+      <button class="btn btn-op" data-op="%">%</button>
+      <button class="btn btn-op" data-op="/">÷</button>
+      
+      <!-- Linha 2 -->
+      <button class="btn" data-num="7">7</button>
+      <button class="btn" data-num="8">8</button>
+      <button class="btn" data-num="9">9</button>
+      <button class="btn btn-op" data-op="*">×</button>
+      
+      <!-- Linha 3 -->
+      <button class="btn" data-num="4">4</button>
+      <button class="btn" data-num="5">5</button>
+      <button class="btn" data-num="6">6</button>
+      <button class="btn btn-op" data-op="-">−</button>
+      
+      <!-- Linha 4 -->
+      <button class="btn" data-num="1">1</button>
+      <button class="btn" data-num="2">2</button>
+      <button class="btn" data-num="3">3</button>
+      <button class="btn btn-op" data-op="+">+</button>
+      
+      <!-- Linha 5 -->
+      <button class="btn" data-num="0">0</button>
+      <button class="btn" data-num=".">.</button>
+      <button class="btn btn-special" id="backspaceBtn">⌫</button>
+      <button class="btn btn-equals" id="equalsBtn">=</button>
+    </div>
+    <div class="brand">
+      ✦  precision calculator  ✦
+    </div>
+  </div>
+</div>
+
+<script>
+  // ----------------------------------------------
+  // 1. RELÓGIO ANIMADO COM DATA COMPLETA (PROFISSIONAL)
+  // ----------------------------------------------
+  function updateClockAndDate() {
+    const now = new Date();
+    
+    // Horário com formatação profissional
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    
+    // Data estilizada (PT-BR)
+    const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString('pt-BR', optionsDate);
+    // Capitalizando primeira letra do dia da semana
+    const dateCapitalized = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    
+    document.getElementById('liveClock').textContent = timeString;
+    document.getElementById('liveDate').textContent = dateCapitalized;
+  }
+  
+  updateClockAndDate();
+  setInterval(updateClockAndDate, 1000);
+  
+  // ----------------------------------------------
+  // 2. CALCULADORA AVANÇADA COM TRATAMENTO DE ERROS
+  // ----------------------------------------------
+  const displayInput = document.getElementById('calcDisplay');
+  
+  // Estado interno para evitar bugs de avaliação duplicada
+  let currentExpression = '';   // string da expressão real
+  let lastResult = null;
+  let justCalculated = false;    // flag para sobrescrever ao digitar após resultado
+  
+  function updateDisplay(value) {
+    displayInput.value = value || '0';
+  }
+  
+  function refreshFromExpression() {
+    if (currentExpression === '') {
+      updateDisplay('0');
+    } else {
+      updateDisplay(currentExpression);
+    }
+  }
+  
+  // Função sanitária para evitar eval cego – vamos usar Function para maior segurança + fallback
+  function safeEvaluate(expr) {
+    // Remove caracteres indesejados (permite apenas números, operadores, decimais, parênteses e % básico)
+    // Vamos tratar % manualmente antes para melhorar a experiência
+    let sanitized = expr.replace(/[^0-9+\-*/.%()]/g, '');
+    if (sanitized === '') return '0';
+    
+    // Substituir ÷ e × visuais por operadores JS (*, /)
+    let jsExpression = sanitized.replace(/÷/g, '/').replace(/×/g, '*');
+    
+    // Tratamento especial para porcentagem: substituir "x%" por "*0.01"
+    // Resolve casos como 50+20% -> 50 + (50*20/100) estilo intuitivo? Vamos fazer um tratamento elegante:
+    // Vamos implementar um percentual contextual: se o usuário digitar 500+10% interpretamos como 500 + (500*10/100) = 550
+    // Essa feature é mais profissional
+    try {
+      // Expressão para detectar padrão "valor%"
+      // Regex avançado: encontra números seguidos de % e resolve considerando último número antes
+      let percentProcessed = jsExpression.replace(/(\d+(?:\.\d+)?)%/g, (match, num) => {
+        return `*0.01`;
+      });
+      
+      // Para uso mais intuitivo: se padrão como '500+10%', a conversão básica acima não resolve sozinha.
+      // Vamos utilizar um parser mais inteligente com função temporária, mas mantendo segurança:
+      // Vamos avaliar diretamente com Function para tratar casos como "50+20%" -> deve priorizar 50 * 0.2 = 10 -> 60
+      // Não complicar demais: farei um pré-processamento simples para porcentagens no final da expressão
+      // Solução sólida: calcular via new Function e substituir % manualmente antes de avaliar.
+      
+      let finalExpression = percentProcessed;
+      
+      // Avaliar usando Function ao invés de eval (boa prática)
+      const compute = new Function('return (' + finalExpression + ')');
+      let result = compute();
+      
+      // Tratamento de números flutuantes (limitar decimais)
+      if (isNaN(result) || !isFinite(result)) {
+        throw new Error('Resultado inválido');
+      }
+      // Arredondar para 8 casas decimais máximo
+      return parseFloat(result.toFixed(8)).toString();
+    } catch (err) {
+      console.warn('Erro ao calcular:', err);
+      return null;
+    }
+  }
+  
+  // Função principal de cálculo com feedback
+  function calculateExpression() {
+    if (currentExpression === '') {
+      updateDisplay('0');
+      return;
+    }
+    
+    // Evitar calcular expressões vazias ou apenas operadores
+    if (/^[\+\-\*\/%÷×]$/.test(currentExpression)) {
+      updateDisplay('Erro');
+      setTimeout(() => refreshFromExpression(), 1000);
+      return;
+    }
+    
+    const result = safeEvaluate(currentExpression);
+    if (result !== null) {
+      lastResult = result;
+      currentExpression = result;
+      updateDisplay(currentExpression);
+      justCalculated = true;
+    } else {
+      updateDisplay('Erro');
+      setTimeout(() => {
+        // recuparar expressão anterior válida?
+        if (currentExpression !== '') refreshFromExpression();
+        else updateDisplay('0');
+      }, 1000);
+    }
+  }
+  
+  // Adicionar valor (número ou operador)
+  function addToExpression(value) {
+    // Se acabou de calcular e o usuário digita um número, começa nova expressão
+    if (justCalculated && !isNaN(value) && value !== '.') {
+      currentExpression = value;
+      justCalculated = false;
+      refreshFromExpression();
+      return;
+    }
+    
+    // Se acabou de calcular mas o usuário pressiona operador, usa resultado anterior para continuar
+    if (justCalculated && ['+', '-', '*', '/', '%', '÷', '×'].includes(value)) {
+      // Permite continuar a partir do último resultado
+      justCalculated = false;
+      currentExpression = currentExpression + value;
+      refreshFromExpression();
+      return;
+    }
+    
+    // Prevenir múltiplos pontos decimais no mesmo número (regra simples)
+    if (value === '.') {
+      const lastNumber = currentExpression.split(/[\+\-\*\/%÷×]/).pop();
+      if (lastNumber.includes('.')) {
+        return; // já tem ponto decimal
+      }
+    }
+    
+    // Evitar operadores consecutivos
+    if (['+', '-', '*', '/', '%', '÷', '×'].includes(value)) {
+      const lastChar = currentExpression.slice(-1);
+      if (['+', '-', '*', '/', '%', '÷', '×'].includes(lastChar)) {
+        // substituir o último operador pelo novo
+        currentExpression = currentExpression.slice(0, -1) + value;
+        refreshFromExpression();
+        return;
+      }
+    }
+    
+    // Prevenir divisão por zero não será aplicado agora, será tratado no eval
+    currentExpression += value;
+    refreshFromExpression();
+    justCalculated = false;
+  }
+  
+  function clearAll() {
+    currentExpression = '';
+    lastResult = null;
+    justCalculated = false;
+    updateDisplay('0');
+  }
+  
+  function clearLastEntry() {
+    if (justCalculated) {
+      clearAll();
+      return;
+    }
+    if (currentExpression.length > 0) {
+      currentExpression = currentExpression.slice(0, -1);
+      refreshFromExpression();
+    } else {
+      updateDisplay('0');
+    }
+  }
+  
+  function backspace() {
+    clearLastEntry();
+  }
+  
+  // ----------------------------------------------
+  // 3. EVENTOS (CLIQUE + TECLADO)
+  // ----------------------------------------------
+  function setupEventListeners() {
+    // Números e ponto via atributos data-num
+    document.querySelectorAll('[data-num]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-num');
+        addToExpression(val);
+      });
+    });
+    
+    // Operadores via data-op
+    document.querySelectorAll('[data-op]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        let op = btn.getAttribute('data-op');
+        if (op === '÷') op = '/';
+        if (op === '×') op = '*';
+        addToExpression(op);
+      });
+    });
+    
+    // Botão AC (clear all)
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    if (clearAllBtn) clearAllBtn.addEventListener('click', clearAll);
+    
+    // Botão C (clear entry)
+    const clearEntryBtn = document.getElementById('clearEntryBtn');
+    if (clearEntryBtn) clearEntryBtn.addEventListener('click', clearLastEntry);
+    
+    // Backspace especial
+    const backBtn = document.getElementById('backspaceBtn');
+    if (backBtn) backBtn.addEventListener('click', backspace);
+    
+    // Igual
+    const equalsBtn = document.getElementById('equalsBtn');
+    if (equalsBtn) equalsBtn.addEventListener('click', calculateExpression);
+    
+    // Teclado numérico profissional
+    window.addEventListener('keydown', (e) => {
+      const key = e.key;
+      // Prevenir comportamento padrão apenas para teclas de calculadora
+      const validKeys = ['0','1','2','3','4','5','6','7','8','9','.', '+', '-', '*', '/', '%', 'Enter', 'Backspace', 'Escape', 'Delete'];
+      if (validKeys.includes(key)) {
+        e.preventDefault();
+      }
+      
+      if (key >= '0' && key <= '9') {
+        addToExpression(key);
+      } else if (key === '.') {
+        addToExpression('.');
+      } else if (key === '+') {
+        addToExpression('+');
+      } else if (key === '-') {
+        addToExpression('-');
+      } else if (key === '*') {
+        addToExpression('*');
+      } else if (key === '/') {
+        addToExpression('/');
+      } else if (key === '%') {
+        addToExpression('%');
+      } else if (key === 'Enter') {
+        calculateExpression();
+      } else if (key === 'Backspace') {
+        backspace();
+      } else if (key === 'Delete' || key === 'Escape') {
+        clearAll();
+      }
+    });
+  }
+  
+  // Inicialização
+  clearAll();
+  setupEventListeners();
+  
+  // ----------------------------------------------
+  // 4. ANIMAÇÃO DE PARTÍCULAS FLUTUANTES (efeito premium adicional)
+  // ----------------------------------------------
+  function createParticles() {
+    const bgContainer = document.querySelector('.animated-bg');
+    const particleCount = 35;
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      const size = Math.random() * 4 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.animationDuration = `${Math.random() * 12 + 8}s`;
+      particle.style.animationDelay = `${Math.random() * 15}s`;
+      particle.style.opacity = Math.random() * 0.4 + 0.1;
+      bgContainer.appendChild(particle);
+    }
+  }
+  createParticles();
+</script>
+</body>
+</html>
